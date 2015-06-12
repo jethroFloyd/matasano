@@ -42,9 +42,7 @@ int main() {
 	// First check if the number of input bytes is divisible by 3. 
 	// If it is, we are clean. If it isn't, we need to pad.
 
-	int sizeCheck = inputSize % 3;
-
-	printf("is: %d\n", inputSize);
+	int sizeCheck = (inputSize/2) % 3;
 
 	uint8_t hex[6] = {0};
 	uint8_t hex2[3] = {3};
@@ -52,9 +50,27 @@ int main() {
 	uint8_t base64[10800] = {0};
 	char base64char[10800];
 
+	// Add padding to string.
+
+	if (sizeCheck == 1) {
+		input[inputSize] = '0';
+		input[inputSize + 1 ] = '0';
+		input[inputSize + 2 ] = '0';
+		input[inputSize + 3 ] = '0';
+	}
+
+	if (sizeCheck == 2) {
+		input[inputSize] = '0';
+		input[inputSize + 1] = '0';
+	}
+
+	// Recompute sizeCheck now!
+
+	int sizeCheck2 = 0;
+
 	// if the size is perfectly divisible by 3, then take the blocks one by one.
 
-	if (sizeCheck == 0) {
+	if (sizeCheck2 == 0) {
 		for (i = 0; i < inputSize; i+=6) {
 
 			// Process six-hex-character block.
@@ -69,8 +85,6 @@ int main() {
 				else {
 					die("The system encountered an error.");
 				}
-
-				printf("i = %d, j = %d, hex[j] = %d\n", i, j, hex[j-i]);
 
 			}
 
@@ -113,9 +127,25 @@ int main() {
 			}
 
 			k+=4;
-
-			printf("%c %c %c %c\n", base64char[4], base64char[5], base64char[6], base64char[7] );
-
 		}
 	}
+
+	// Now let us find out the state of the base64char thing.
+
+	if (sizeCheck == 0) {
+		base64char[k] = '\0';
+	}
+	else if (sizeCheck == 1) {
+		base64char[k-2] = '=';
+		base64char[k-1] = '=';
+		base64char[k] = '\0';
+	}
+	else if (sizeCheck == 2) {
+		base64char[k-1] = '=';
+		base64char[k] = '\0';
+	}
+
+	// Print out the final output.
+
+	printf("The base64 encoding is:\n%s\n", base64char);
 }
