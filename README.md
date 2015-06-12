@@ -12,7 +12,11 @@ Solution Languages so far:
 
 Solutions so far:
 
-* Set 1 - Challenge 1
+Set | Challenge | Implementation
+--- | --------- | --------------
+ 1  | 1         | C
+ 1  | 2         | Python
+
 
 Naming Scheme:
 > Set 99 Challenge 11 is coded as s99c11.ext
