@@ -1,5 +1,5 @@
 # Matasano Crypto Challenge
-## Solutions to the Matasano Crypto Challenges - Under Construction
+#### Solutions to the Matasano Crypto Challenges - Under Construction
 
 Matasano Crypto Challenges are a set of problems related to implementing and attacking real-world crypto-systems.
 The problems are hosted [here](http://cryptopals.com).
@@ -7,6 +7,7 @@ The problems are hosted [here](http://cryptopals.com).
 I have just started with the solutions; and I intend to do it mostly in my free time.
 
 Solution Languages so far:
+
 * C
 * Python
 
@@ -14,8 +15,8 @@ Solutions so far:
 
 Set | Challenge | Implementation
 --- | --------- | --------------
- 1  | 1         | C
- 1  | 2         | Python
+ 1  |     1     | C
+ 1  |     2     | Python
 
 
 Naming Scheme:
