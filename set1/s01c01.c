@@ -36,13 +36,15 @@ int main() {
 	int inputSize = strlen(input);
 	inputSize--; // Truncating the NULL Character.
 
-	int i,j;
+	int i,j,k=0;
 
 	// Take the input 3-bytes at a time (6 hex characters) at a time, and divide it into 4 blocks.
 	// First check if the number of input bytes is divisible by 3. 
 	// If it is, we are clean. If it isn't, we need to pad.
 
 	int sizeCheck = inputSize % 3;
+
+	printf("is: %d\n", inputSize);
 
 	uint8_t hex[6] = {0};
 	uint8_t hex2[3] = {3};
@@ -53,22 +55,28 @@ int main() {
 	// if the size is perfectly divisible by 3, then take the blocks one by one.
 
 	if (sizeCheck == 0) {
-		for (i = 0; i < (inputSize/3); i++) {
-			for (j=0; j<6;j++){
+		for (i = 0; i < inputSize; i+=6) {
+
+			// Process six-hex-character block.
+			for (j=i; j<(i+6);j++){
 				// First check if the concerned digit is a number.
 				if(isdigit(input[j])) {
-					hex[j] = (uint8_t)((int)input[j] - 48);
+					hex[j-i] = (uint8_t)((int)input[j] - 48);
 				}
 				else if(isalpha(input[j])) {
-					hex[j] = (uint8_t)((int)input[j] - 87);
+					hex[j-i] = (uint8_t)((int)input[j] - 87);
 				}
 				else {
 					die("The system encountered an error.");
 				}
 
+				printf("i = %d, j = %d, hex[j] = %d\n", i, j, hex[j-i]);
+
 			}
 
 			// Now let us fuse two hex characters together - 8 bits, to form our octet.
+
+			
 
 			hex2[0] = (hex[1] | (hex[0] << 4));
 			hex2[1] = (hex[3] | (hex[2] << 4));
@@ -84,27 +92,29 @@ int main() {
 			base64[2] = (hex[3] | hex[4])>>2;
 			base64[3] = hex2[2] & 0x3f;
 
-			printf("%d, %d\n", hex[3], base64[2]);
+			// Now we have the four base64 characters from this six-hex-block.
 
-			for(j=0; j<4; j++){
-				if(base64[j] < 26) {
-					base64char[j] = (char)(base64[j] + 65);
+			for(j=k; j<(k+4); j++){
+				if(base64[j-k] < 26) {
+					base64char[j] = (char)(base64[j-k] + 65);
 				}
-				else if(base64[j] < 52) {
-					base64char[j] = (char)(base64[j] + 71);
+				else if(base64[j-k] < 52) {
+					base64char[j] = (char)(base64[j-k] + 71);
 				}
-				else if(base64[j] < 62) {
-					base64char[j] = (char)(base64[j] - 4);
+				else if(base64[j-k] < 62) {
+					base64char[j] = (char)(base64[j-k] - 4);
 				}
-				else if (base64[j] == 62) {
+				else if (base64[j-k] == 62) {
 					base64char[j] = '+';
 				}
 				else {
-					base64char[j] = '/';
+					base64char[j-k] = '/';
 				}
 			}
 
-			printf("%c %c %c %c\n", base64char[0], base64char[1], base64char[2], base64char[3] );
+			k+=4;
+
+			printf("%c %c %c %c\n", base64char[4], base64char[5], base64char[6], base64char[7] );
 
 		}
 	}
