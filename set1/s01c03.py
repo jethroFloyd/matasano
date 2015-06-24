@@ -12,24 +12,29 @@
 # has been XOR-ed with one character. 				#
 # Decrypt it. 										#
 # 													#
+# Key: X, Text: Cooking MC's like a pound of bacon	#
 #####################################################
+
 
 from sys import exit
 from collections import Counter
 import binascii
 
 def hexCheck(number, length):
-	# We need to extract the last two digits.
 	hexToString = ''
+	e = 0
 	for i in range(length/2):
 		lastTwo = int(number & 0xff)
 		lastChar = chr(lastTwo)
+		if (lastChar=="o"):
+			e+=1
 		hexToString = lastChar + hexToString
 		number = number >> 8
 
-	return hexToString
+	return hexToString, e 
 
-inputString = raw_input("Please enter hex-encoded string:\n ")
+
+inputString = raw_input("Please enter hex-encoded string:\n")
 inputInt = int(inputString,16)
 inputStringASCII = inputString.decode("hex")
 length = len(inputStringASCII)
@@ -37,55 +42,25 @@ stringChar = "x"
 stringTest = stringChar*length
 stringTestHex = stringTest.encode("hex")
 bestKey = "a"
-e = 0
-old_e = 0
+index = 0
+old_index = 0
+finalResult = ''
 
 
 for i in range(26):
 	stringChar = str(unichr(65+i))
-	print stringChar
 	stringTest = stringChar*(length)
-	#print stringTest
 	stringTestHex = int(binascii.hexlify(stringTest), 16)
-	#print stringTestHex
-
 	testOutput = stringTestHex ^ inputInt
-	print "%x"  %(testOutput)
-	testOutputString = hexCheck(testOutput, (length*2))
-	print testOutputString
-#	testOutputString ="o"
-
-		#testOutputString = testOutput.decode("hex")
-	#print testOutput
-	# Now we have the hex representation of testOut. We need to unhexlify it.
-#	print binascii.unhexlify(str(testOutput))
-#	testOutputString = testOutputString.decode("hex")
-	# print testOutputString
-	#print testOutputString
-	# Now check if 'e' is the most common letter
-	for j in range(length):
-		if 'o' in testOutputString:
-			e+=1
-		else:
-			pass
-	# e should be higher than a, and e/length should be ~ .12
-	if e > old_e:
+	testOutputString, index = hexCheck(testOutput, (length*2))
+	if index > old_index:
 		bestKey = stringChar
-		old_e = e
-	e = 0
+		finalResult = testOutputString
+	else:
+		pass
+	old_index = index
+	index = 0
 
-
-stringChar = bestKey
-stringTest = stringChar*length
-stringTestHex = stringTest.encode("hex")
-stringTestHexNum = int(stringTestHex,16)
-testOutput = stringTestHexNum ^ inputInt
-testOutputString = str(testOutput)
-testOutputString = testOutputString.decode("hex")
-testOutputString
 
 print "The character key is: " , bestKey
-print "The output is: ", testOutputString
-
-
-
+print "The output is: ", finalResult
