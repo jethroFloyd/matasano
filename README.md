@@ -17,13 +17,15 @@ Set | Challenge | Implementation
 --- | --------- | --------------
  1  |     1     | C
  1  |     2     | Python
-
+ 1  |     3     | Python
 
 Naming Scheme:
 > Set 99 Challenge 11 is coded as s99c11.ext
 
+Last updated: June 24, 2015
 
 Solutions by Ritobroto Maitra, 2015.
+
 Bugs and hugs welcome!
 Drop me an e-mail at [ritobrotomaitra at gmail.com ](mailto: ritobroto-no-spam-maitra@gmail.com).
 
