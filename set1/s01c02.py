@@ -30,8 +30,10 @@ inputString2 = raw_input("Second input: ")
 if (len(inputString1)) != (len(inputString2)):
 	die("The lengths do not match!")
 
-# If the program reaches this line, it means that the two inputs are equal-length.
-# At this stage, we are not checking if both are valid hex streams.
+# If the program reaches this line, 
+# it means that the two inputs are equal-length.
+# At this stage, we are not checking 
+# if both are valid hex streams.
 
 input1 = int(inputString1, 16)
 input2 = int(inputString2, 16)
