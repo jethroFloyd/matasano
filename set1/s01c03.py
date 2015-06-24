@@ -21,49 +21,45 @@ import binascii
 inputString = raw_input("Please enter hex-encoded string:\n ")
 
 inputInt = int(inputString,16)
-print inputInt
+
 inputStringASCII = inputString.decode("hex")
-print inputStringASCII
 length = len(inputStringASCII)
-print length
 stringChar = "x"
 stringTest = stringChar*length
 stringTestHex = stringTest.encode("hex")
-print stringTestHex
 bestKey = "a"
 e = 0
-a = 0
+old_e = 0
 
 
 for i in range(26):
-	stringChar = str(unichr(97+i))
+	stringChar = str(unichr(65+i))
 	print stringChar
-	stringTest = stringChar*length
-	print stringTest
-	stringTestHex = stringTest.encode("hex")
-	print stringTestHex
-	stringTestHexNum = int(stringTestHex,16)
-	testOutput = stringTestHexNum ^ inputInt
+	stringTest = stringChar*(length)
+	#print stringTest
+	stringTestHex = int(binascii.hexlify(stringTest), 16)
+	#print stringTestHex
+
+	testOutput = stringTestHex ^ inputInt
+	print "%x" %(testOutput)
 	#testOutputString = testOutput.decode("hex")
-	print testOutput
-	testOutputString = str(testOutput)
+	#print testOutput
 	
-	testOutputString = testOutputString.decode("hex")
-	print testOutputString
+	
+#	testOutputString = testOutputString.decode("hex")
+	# print testOutputString
+	#print testOutputString
 	# Now check if 'e' is the most common letter
 	for j in range(length):
-		if 'e' in testOutputString:
+		if 'o' in testOutputString:
 			e+=1
-		elif 'a' in testOutputString:
-			a+=1
 		else:
 			pass
 	# e should be higher than a, and e/length should be ~ .12
-	if e > a:
-		if  0.1 < float(e/length) < 0.15:
-			bestKey = stringChar
+	if e > old_e:
+		bestKey = stringChar
+		old_e = e
 	e = 0
-	a = 0
 
 
 stringChar = bestKey
