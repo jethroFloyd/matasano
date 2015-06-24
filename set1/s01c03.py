@@ -16,6 +16,7 @@
 
 from sys import exit
 from collections import Counter
+import binascii
 
 inputString = raw_input("Please enter hex-encoded string:\n ")
 
@@ -42,8 +43,12 @@ for i in range(26):
 	stringTestHex = stringTest.encode("hex")
 	print stringTestHex
 	stringTestHexNum = int(stringTestHex,16)
-	testOutputString = stringTestHexNum ^ inputInt
+	testOutput = stringTestHexNum ^ inputInt
 	#testOutputString = testOutput.decode("hex")
+	print testOutput
+	testOutputString = str(testOutput)
+	
+	testOutputString = testOutputString.decode("hex")
 	print testOutputString
 	# Now check if 'e' is the most common letter
 	for j in range(length):
@@ -61,10 +66,14 @@ for i in range(26):
 	a = 0
 
 
-stringTest = bestKey*length
-stringTestHex = int((stringTest.encode("hex")),16)
-testOutput = stringTestHex ^ inputInt
-testOutputString = testOutput.decode("hex")
+stringChar = bestKey
+stringTest = stringChar*length
+stringTestHex = stringTest.encode("hex")
+stringTestHexNum = int(stringTestHex,16)
+testOutput = stringTestHexNum ^ inputInt
+testOutputString = str(testOutput)
+testOutputString = testOutputString.decode("hex")
+testOutputString
 
 print "The character key is: " , bestKey
 print "The output is: ", testOutputString
