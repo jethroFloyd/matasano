@@ -18,10 +18,19 @@ from sys import exit
 from collections import Counter
 import binascii
 
+def hexCheck(number, length):
+	# We need to extract the last two digits.
+	hexToString = ''
+	for i in range(length/2):
+		lastTwo = int(number & 0xff)
+		lastChar = chr(lastTwo)
+		hexToString = lastChar + hexToString
+		number = number >> 8
+
+	return hexToString
+
 inputString = raw_input("Please enter hex-encoded string:\n ")
-
 inputInt = int(inputString,16)
-
 inputStringASCII = inputString.decode("hex")
 length = len(inputStringASCII)
 stringChar = "x"
@@ -41,11 +50,15 @@ for i in range(26):
 	#print stringTestHex
 
 	testOutput = stringTestHex ^ inputInt
-	print "%x" %(testOutput)
-	#testOutputString = testOutput.decode("hex")
+	print "%x"  %(testOutput)
+	testOutputString = hexCheck(testOutput, (length*2))
+	print testOutputString
+#	testOutputString ="o"
+
+		#testOutputString = testOutput.decode("hex")
 	#print testOutput
-	
-	
+	# Now we have the hex representation of testOut. We need to unhexlify it.
+#	print binascii.unhexlify(str(testOutput))
 #	testOutputString = testOutputString.decode("hex")
 	# print testOutputString
 	#print testOutputString
